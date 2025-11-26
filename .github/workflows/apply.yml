@@ -24,10 +24,28 @@ jobs:
           private-key: ${{ secrets.PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
 
+      - name: Debug - Check token works
+        run: |
+          curl -I -H "Authorization: Bearer ${{ steps.app-token.outputs.token }}" \
+               -H "Accept: application/vnd.github+json" \
+               https://api.github.com/user
+
+      - name: Debug - Check org access
+        run: |
+          curl -I -H "Authorization: Bearer ${{ steps.app-token.outputs.token }}" \
+               -H "Accept: application/vnd.github+json" \
+               https://api.github.com/orgs/rsi-pf-eng-sandbox
+
+      - name: Debug - Check GitHub App installations
+        run: |
+          curl -H "Authorization: Bearer ${{ steps.app-token.outputs.token }}" \
+               -H "Accept: application/vnd.github+json" \
+               https://api.github.com/app/installations
+
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          token: ${{ steps.app-token.outputs.token }} # Use GitHub App token to bypass repository rulesets
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -57,4 +75,4 @@ jobs:
             echo "No state changes to commit"
           fi
         env:
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }} # Repository rulesetsでmainに直接コミット不可としているので、GitHub Appsからのトークンでrulesetをbypassする
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
