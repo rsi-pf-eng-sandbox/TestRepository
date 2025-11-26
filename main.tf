@@ -31,9 +31,9 @@ locals {
 }
 
 # Organization members
-resource "github_membership" "members" {
+resource "github_organization_membership" "members" {
   for_each = local.members
-
+  
   username = each.value.username
   role     = each.value.role
 }
