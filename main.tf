@@ -80,3 +80,10 @@ resource "github_team_membership" "team_maintainers" {
   username = each.value.username
   role     = each.value.role
 }
+
+output "repo_ids" {
+  value = {
+    for name, repo in data.github_repository.actions_enabled :
+    name => repo.repo_id
+  }
+}
