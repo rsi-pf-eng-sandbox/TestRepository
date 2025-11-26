@@ -1,0 +1,7 @@
+# GitHub Organization Configuration
+github_token = ""
+github_owner = "rsi-pf-eng-sandbox"
+
+# Data file paths（省略可）
+members_file = "data/members.yaml"
+teams_file   = "data/teams.yaml"
