@@ -24,37 +24,10 @@ jobs:
           private-key: ${{ secrets.PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
 
-      ## --- Debug Section Start -----------------------------------------
-
-      - name: Debug - Show token existence
-        run: |
-          if [ -z "${{ steps.app-token.outputs.token }}" ]; then
-            echo "❌ Token is EMPTY"
-            exit 1
-          else
-            echo "✅ Token generated (not printing for security)"
-          fi
-
-      - name: Debug - Check App installations
-        run: |
-          echo "🔍 Checking GitHub App installations..."
-          curl -s -H "Authorization: Bearer ${{ steps.app-token.outputs.token }}" \
-               -H "Accept: application/vnd.github+json" \
-               https://api.github.com/app/installations | jq '.'
-
-      - name: Debug - Check org access
-        run: |
-          echo "🔍 Checking access to organization rsi-pf-eng-sandbox ..."
-          curl -I -H "Authorization: Bearer ${{ steps.app-token.outputs.token }}" \
-               -H "Accept: application/vnd.github+json" \
-               https://api.github.com/orgs/rsi-pf-eng-sandbox
-
-      ## --- Debug Section End -------------------------------------------
-
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          token: ${{ steps.app-token.outputs.token }}
+          token: ${{ steps.app-token.outputs.token }} # Use GitHub App token to bypass repository rulesets
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -70,7 +43,6 @@ jobs:
         run: terraform apply -auto-approve
         env:
           TF_VAR_github_token: ${{ steps.app-token.outputs.token }}
-          TF_VAR_github_owner: "rsi-pf-eng-sandbox"
 
       - name: Commit terraform state
         run: |
@@ -84,4 +56,4 @@ jobs:
             echo "No state changes to commit"
           fi
         env:
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }} # Repository rulesetsでmainに直接コミット不可としているので、GitHub Appsからのトークンでrulesetをbypassする
