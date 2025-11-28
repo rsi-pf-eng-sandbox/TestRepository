@@ -1,8 +1,7 @@
 provider "github" {
   token = var.github_token
-  owner = var.github_owner
+  owner = "rsi-pf-eng-sandbox"
 }
-
 # Load YAML files
 locals {
   members_data      = yamldecode(file(var.members_file))

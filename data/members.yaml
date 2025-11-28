@@ -8,3 +8,6 @@ members:
   - username: "sonedasaurus"
     email: "takuya.soneda@jp.ricoh.com"
     role: "admin"
+  - username: "wakamatsuwakamatsu"
+    email: "tomoki.wakamatsu@jp.ricoh.com"
+    role: "member"
