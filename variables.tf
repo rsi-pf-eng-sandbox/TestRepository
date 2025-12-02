@@ -21,8 +21,3 @@ variable "actions_enabled_repositories_file" {
   type        = string
   default     = "data/actions-enabled-repositories.yaml"
 }
-
-variable "github_owner" {
-  description = "GitHub Organization name"
-  type        = string
-}
