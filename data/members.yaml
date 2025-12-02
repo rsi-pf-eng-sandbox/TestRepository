@@ -1,7 +1,7 @@
 members:
   - username: "AdachiShunta"
     email: "shunta.adachi@jp.ricoh.com"
-    role: "admin"
+    role: "member"
   - username: "SHIRO-KAG"
     email: "Keishiro.Iseri@jp.ricoh.com"
     role: "admin"
