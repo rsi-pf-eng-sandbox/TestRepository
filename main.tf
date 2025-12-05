@@ -1,6 +1,5 @@
 provider "github" {
-  token = var.github_token
-  owner = "rsi-pf-eng-sandbox"
+
 }
 # Load YAML files
 locals {
